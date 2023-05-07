@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "KillDublicates",
+  "description": "Close all duplicate tabs",
+  "version": "1.0",
+  "action": {},
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "src/service-worker.js"
+  }
+}
