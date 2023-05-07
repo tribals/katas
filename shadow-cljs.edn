@@ -1,0 +1,11 @@
+;; shadow-cljs configuration
+{:deps {:aliases [:shadow-clj]}
+ :builds
+ {:ext
+  {:target :esm
+   :output-dir "build/js"
+   :runtime :custom ; to/do: browser-extension?
+   :modules
+   {:service-worker
+    {:exports
+     {foo one-tab.ext.service-worker/foo}}}}}}
