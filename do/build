@@ -1,6 +1,11 @@
 #!/bin/sh
 
+set -x
+
 set -o errexit
 set -o nounset
 
-exec clojure -M:shadow-cljs compile :ext
+readonly _namespace='one-tab.ext.service-worker'
+readonly _target=node
+
+exec clojure -M:cljs --compile "${_namespace}" --target "${_target}" "$@"

@@ -1,10 +1,13 @@
 {:paths ["src/main"]
+ :deps
+ {org.clojure/clojurescript {:mvn/version "1.11.54"}}
  :aliases
  {:deps
-   {:replace-paths []
-    :replace-deps {org.clojure/tools.deps.alpha {:mvn/version "0.15.1254"}}
-    :ns-default clojure.tools.cli.api
-    :ns-aliases {help clojure.tools.cli.help}}
-  :shadow-cljs
-   {:extra-deps {thheller/shadow-cljs {:mvn/version "2.23.3"}}
-    :main-opts ["-m" "shadow.cljs.devtools.cli"]}}}
+  {:replace-paths []
+   :replace-deps
+   {org.clojure/tools.deps.alpha {:mvn/version "0.15.1254"}}
+   :ns-default clojure.tools.cli.api
+   :ns-aliases
+   {help clojure.tools.cli.help}}
+  :cljs
+  {:main-opts ["-m" "cljs.main"]}}}
