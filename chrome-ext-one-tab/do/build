@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -x
+
+set -o errexit
+set -o nounset
+
+readonly _namespace='one-tab.ext.service-worker'
+readonly _target=node
+
+exec do/cljs --compile "${_namespace}" --target "${_target}" "$@"
