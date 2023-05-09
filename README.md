@@ -35,6 +35,17 @@ $ do/guix shell  # or `guix shell`
 $ do/build
 ```
 
+Проверяем, что работает:
+
+```console
+$ do/repl
+ClojureScript 1.11.54
+cljs.user=> (require '[one-tab.ext.service-worker :as sw])
+nil
+cljs.user=> sw/foo
+"foo"
+```
+
 # to/do:
 
 - тесты (в REPL'е в том числе)!
