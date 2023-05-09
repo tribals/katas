@@ -8,4 +8,4 @@ set -o nounset
 readonly _namespace='one-tab.ext.service-worker'
 readonly _target=node
 
-exec clojure -M:cljs --compile "${_namespace}" --target "${_target}" "$@"
+exec do/cljs --compile "${_namespace}" --target "${_target}" "$@"
