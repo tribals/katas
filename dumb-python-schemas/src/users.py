@@ -1,15 +1,14 @@
-from typing import TypedDict
+from typing import TypedDict, TypeVar
 
 import attrs
 import pendulum
-from cattrs import Converter
 from phantom.datetime import TZAware
 
 EmailAddress = str
 
 
-@attrs.define
-class Permission:
+@attrs.define(frozen=True)
+class Can:
     description: str
 
 
@@ -19,10 +18,31 @@ class User:
     member_since: TZAware
     full_name: str
     email: EmailAddress
-    permissions: tuple[Permission, ...]
+    permissions: tuple[Can, ...]
 
 
-class UserSchema(TypedDict):
+E = TypeVar("E", bound=User)
+
+
+class Schema(TypedDict):
+    """A *Schema* does one thing - it "looks up itself" in passed Entity
+    """
+
+
+def conform(entity: E, S: Schema) -> Schema:
+    # names = S.__required_keys__
+    # values = op.attrgetter(*names)
+
+    data = attrs.asdict(entity)
+
+    return S(**{k: data[k] for k in S.__required_keys__})
+    # return S(**{n: getattr(entity, n) for n in S.__required_keys__})
+
+    # return S(**dict(zip(names, values(entity))))
+    # return S(**{n: v for n, v in data.items() if n in S.__required_keys__})
+
+
+class UserSchema(TypedDict, Schema):
     id: int
     member_since: TZAware
     full_name: str
@@ -35,15 +55,45 @@ me = User(
     full_name="Anthony",
     email="anthony@example.com",
     permissions=(
-        Permission("read_users"),
-        Permission("manage_users"),
+        Can("read_users"),
+        Can("manage_users"),
     ),
 )
 
-c = Converter()
-data = c.unstructure(me, UserSchema)
 
-# {'id': 42,
-#  'member_since': DateTime(..., tzinfo=timezone.utc),
-#  'full_name': 'Anthony',
-#  'email': 'anthony@example.com'}
+def test_conform_user_schema():
+    assert conform(me, UserSchema) == {
+        "id": 42,
+        "member_since": me.member_since,
+        "full_name": "Anthony",
+        "email": "anthony@example.com",
+    }
+
+
+class AnonymousUserSchema(TypedDict):
+    full_name: str
+
+
+class AdminUserSchema(TypedDict):
+    id: int
+    member_since: TZAware
+    full_name: str
+    email: EmailAddress
+    permissions: tuple[Can, ...]
+
+
+def test_conform_anonymous_user_schema():
+    assert conform(me, AnonymousUserSchema) == {"full_name": "Anthony"}
+
+
+def test_conform_admin_user_schema():
+    assert conform(me, AdminUserSchema) == {
+        "email": "anthony@example.com",
+        "full_name": "Anthony",
+        "id": 42,
+        "member_since": me.member_since,
+        "permissions": (
+            {"description": "read_users"},
+            {"description": "manage_users"},
+        ),
+    }
