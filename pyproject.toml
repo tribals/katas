@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "tmp.Lx3I6MXnXT"
+version = "0.1.0"
+description = "Funny Money"
+authors = ["Anthony <anthony@example.com>"]
+license = "WTFPL"
+readme = "index.md"
+packages = [
+    { include = "funny_money.py", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+phantom-types = "^2.1.1"
+pytest = "^7.4.1"
+black = "^23.7.0"
+ruff = "^0.0.287"
+mypy = "^1.5.1"
+
+[tool.poetry.group.dev.dependencies]
+
+[tool.black]
+target-version = ['py310']
+line-length = 99
+
+[tool.ruff]
+target-version = "py310"
+fix = true
+src = ['src']
+line-length = 119
+ignore = ['RUF001', 'RUF003']
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "UP",       # https://pypi.org/project/pyupgrade/
+    "ASYNC",    # https://pypi.org/project/flake8-async/
+    "BLE",      # https://pypi.org/project/flake8-blind-except/
+    "C4",       # https://pypi.org/project/flake8-comprehensions/
+    "DTZ",      # https://pypi.org/project/flake8-datetimez/
+    "FA",       # https://pypi.org/project/flake8-future-annotations/
+    "INP",      # https://pypi.org/project/flake8-no-pep420/
+    "PT",       # https://pypi.org/project/flake8-pytest-style/
+    "RSE",      # https://pypi.org/project/flake8-raise/
+    "RET",      # https://pypi.org/project/flake8-return/
+    "PERF",     # https://pypi.org/project/perflint/
+    "RUF",      # ruff
+]
+
+[tool.ruff.isort]
+combine-as-imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
