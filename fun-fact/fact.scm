@@ -6,7 +6,8 @@
 
 (define-curried (fact acc n)
   (match n
-    ((or 0 1) acc)
+    ((or 0 1)
+     acc)
     ((and (? positive?)
           (? integer?))
      (fact (* acc n) (1- n)))))
