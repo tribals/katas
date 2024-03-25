@@ -16,9 +16,9 @@
 
 (define factorial (fact 1))
 
-(test-equal "0!" (factorial 0) 1)
-(test-equal "1!" (factorial 1) 1)
-(test-equal "5!" (factorial 5) 120)
+(test-equal "0!" 1 (factorial 0))
+(test-equal "1!" 1 (factorial 1))
+(test-equal "5!" 120 (factorial 5))
 (test-error "defined on non-negative" 'match-error (factorial -7))
 (test-error "integers" 'match-error (factorial 3.14))
 
